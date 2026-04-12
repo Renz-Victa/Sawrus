@@ -1,171 +1,206 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = {
-  title: 'AsleepTurtle — AI Consulting for Startups',
-}
-
-const services = [
-  {
-    num: '01',
-    title: 'AI Strategy Sprint',
-    desc: 'A focused 2–3 week engagement to audit your current state and produce a prioritised roadmap your team can execute.',
-    href: '/services#strategy',
-  },
-  {
-    num: '02',
-    title: 'Implementation Partnership',
-    desc: 'Embedded advisory and hands-on build support, working alongside your team from scoping through to production.',
-    href: '/services#implementation',
-  },
-  {
-    num: '03',
-    title: 'Team Enablement',
-    desc: 'Coaching and workshops that build lasting internal AI capability — so you stop depending on consultants.',
-    href: '/services#enablement',
-  },
+const benefits = [
+  { icon: '◎', title: 'Amplify your AI roadmap', desc: 'Unlock data-driven decisions with a prioritised, executable AI strategy grounded in your actual constraints — not a wishlist.' },
+  { icon: '⬡', title: 'Senior attention, always', desc: 'You work directly with us, not a sub-contracted junior team. Every call, every deliverable, every decision.' },
+  { icon: '◈', title: 'No lock-in by design', desc: 'We build your team\'s capability alongside anything we build for you. The goal is to make ourselves unnecessary.' },
+  { icon: '◻', title: 'Startup-native thinking', desc: 'The right solution is the one that ships — not the architecturally perfect one that sits in a backlog.' },
 ]
 
-const whyItems = [
-  {
-    num: '01',
-    title: 'Senior access, always',
-    body: "You work with us directly — not a junior team that read about AI last month. Every call, every deliverable.",
-  },
-  {
-    num: '02',
-    title: 'Outcome-focused, not effort-billed',
-    body: "We scope by what gets shipped, not hours logged. If it doesn't move your roadmap forward, we don't bill for it.",
-  },
-  {
-    num: '03',
-    title: 'No lock-in by design',
-    body: "We build your team's capability alongside anything we build for you. The goal is to make ourselves unnecessary.",
-  },
-  {
-    num: '04',
-    title: 'Startup-native thinking',
-    body: "We've operated inside fast-moving companies. We know that the right solution is the one that ships — not the perfect one.",
-  },
+const steps = [
+  { num: '01', title: 'Book a call', desc: 'A 30-minute conversation to understand your situation — no pitch, no obligation.' },
+  { num: '02', title: 'We scope together', desc: 'You tell us where you are. We tell you what we think you actually need, even if it\'s not us.' },
+  { num: '03', title: 'We get to work', desc: 'Embedded, hands-on, and accountable. We stay until your team owns it.' },
 ]
 
 export default function Home() {
   return (
     <>
-      {/* ── Hero ── */}
+      {/* ── HERO ── */}
       <section className="hero">
         <div className="container">
-          <div className="hero__eyebrow">AI Consulting for Startups</div>
+          <div className="hero__tag">AI Consulting for Startups</div>
           <h1 className="hero__h1">
-            Turn AI ambition into <em>working product.</em>
+            We help startups ship <em>AI that works.</em>
           </h1>
           <p className="hero__sub">
             Strategy, implementation, and team enablement for Series A–C companies
             moving faster than their AI roadmap.
           </p>
           <div className="hero__actions">
-            <Link href="/contact" className="btn btn-primary">
-              Book a free strategy call →
-            </Link>
-            <Link href="/services" className="btn btn-ghost">
-              See how we work
-            </Link>
+            <Link href="/contact" className="btn btn-dark">Book a free strategy call →</Link>
+            <Link href="/services" className="btn btn-outline">See how we work</Link>
           </div>
-          <div className="hero__scroll">Scroll to explore</div>
-        </div>
-      </section>
 
-      {/* ── Problem ── */}
-      <section className="problem">
-        <div className="container">
-          <div className="problem__grid">
-            <div>
-              <p className="problem__label">The problem</p>
-              <h2 className="problem__h2">
-                The hard part isn't believing in AI.
-              </h2>
-            </div>
-            <div className="problem__text">
-              <p>
-                Most startups know AI is important. The hard part is knowing where to start,
-                what to build in-house, what to buy, and how to avoid the six-month detour
-                that ends with a model no one uses.
-              </p>
-              <p>
-                We've seen that detour. We help you skip it.
-              </p>
-              <blockquote className="problem__quote">
-                We're not here to impress your board. We're here to help your team ship.
-              </blockquote>
+          <div className="hero__image">
+            <div className="hero__image-inner">
+              <p className="hero__image-text">AsleepTurtle × AI Strategy</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Services Strip ── */}
-      <section>
+      {/* ── LOGOS ── */}
+      <div className="logos">
         <div className="container">
-          <p className="problem__label">What we do</p>
-          <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 700, maxWidth: '20ch' }}>
-            Three ways we work together
-          </h2>
-          <div className="services-strip__grid">
-            {services.map((s) => (
-              <Link href={s.href} key={s.num} className="service-card">
-                <p className="service-card__num">{s.num}</p>
-                <h3 className="service-card__title">{s.title}</h3>
-                <p className="service-card__desc">{s.desc}</p>
-                <span className="service-card__arrow">↗</span>
-              </Link>
+          <p className="logos__label">Trusted by ambitious teams at</p>
+          <div className="logos__row">
+            {['Acme Labs', 'Vanta', 'Northstar', 'Deepflow', 'Orbital'].map((l) => (
+              <span key={l} className="logo-item">{l}</span>
             ))}
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ── Why Us ── */}
-      <section className="why">
+      {/* ── BENEFITS ── */}
+      <section className="section section--white">
         <div className="container">
-          <div className="why__header">
-            <h2 className="why__h2">Why founders choose AsleepTurtle</h2>
-            <p className="why__sub">
-              We work with a small number of clients at a time. That's by design.
+          <div className="section-header">
+            <p className="section-header__label">Benefits</p>
+            <h2 className="section-header__h2">We have cracked the code.</h2>
+            <p className="section-header__sub">
+              AsleepTurtle gives you senior AI expertise without the enterprise consulting overhead.
             </p>
           </div>
-          <div className="why__list">
-            {whyItems.map((item) => (
-              <div key={item.num} className="why__item">
-                <p className="why__item-num">{item.num}</p>
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
+          <div className="benefits__grid">
+            {benefits.map((b) => (
+              <div key={b.title} className="benefit-card">
+                <div className="benefit-card__icon">{b.icon}</div>
+                <h3>{b.title}</h3>
+                <p>{b.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Testimonial ── */}
-      <section className="testimonial">
+      {/* ── FEATURE ── */}
+      <section className="section section--warm">
         <div className="container">
-          <div className="testimonial__inner">
-            <p className="testimonial__quote">
-              "They restructured how we thought about the problem entirely — and cut our evaluation
-              timeline from weeks to days."
-            </p>
-            <p className="testimonial__attr">CTO · Series B SaaS · Amsterdam</p>
+          <div className="feature">
+            <div className="feature__image">
+              <div className="feature__image-placeholder" />
+            </div>
+            <div>
+              <p className="feature__label">Why it matters</p>
+              <h2 className="feature__h2">See the full picture before you build.</h2>
+              <p className="feature__text">
+                Most AI projects fail before a single model runs. We help you avoid the
+                six-month detour — by getting the strategy, scope, and team alignment
+                right from day one.
+              </p>
+              <ul className="feature__list">
+                {[
+                  'Spot the highest-leverage opportunity in your stack',
+                  'Define success before engineering starts',
+                  'Ship a working system — not a prototype in a drawer',
+                  'Leave your team better than we found them',
+                ].map((item, i) => (
+                  <li key={i}>
+                    <span>0{i + 1}</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/services" className="btn btn-outline" style={{ marginTop: '2rem' }}>
+                See our services →
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── CTA Banner ── */}
-      <section className="cta-banner">
+      {/* ── SERVICES TABLE ── */}
+      <section className="section section--white">
         <div className="container">
-          <div className="cta-banner__inner">
-            <div>
-              <h2>Not sure if you need a consultant?</h2>
-              <p>Let's talk for 30 minutes. No pitch — just an honest conversation about where you are.</p>
-            </div>
-            <Link href="/contact" className="btn btn-primary" style={{ flexShrink: 0 }}>
-              Book a call →
+          <div className="section-header">
+            <p className="section-header__label">Specifications</p>
+            <h2 className="section-header__h2">Why choose AsleepTurtle?</h2>
+            <p className="section-header__sub">
+              A boutique practice built for the speed and constraints of fast-growing startups.
+            </p>
+          </div>
+
+          <div style={{ overflowX: 'auto' }}>
+            <table className="services-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th className="highlight">AsleepTurtle</th>
+                  <th>Large Consultancy</th>
+                  <th>Freelancer</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['Senior practitioner on every call',     '✓','–','✓'],
+                  ['Startup-speed delivery',                '✓','–','✓'],
+                  ['End-to-end strategy + build',           '✓','✓','–'],
+                  ['Team enablement included',              '✓','–','–'],
+                  ['No lock-in, full IP handover',          '✓','–','✓'],
+                  ['Dedicated account management',          '✓','✓','–'],
+                ].map(([label, ...vals]) => (
+                  <tr key={label as string}>
+                    <td>{label}</td>
+                    {vals.map((v, i) => (
+                      <td key={i} className={i === 0 ? 'highlight' : ''}>
+                        <span className={v === '✓' ? 'check' : 'dash'}>{v}</span>
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* ── TESTIMONIAL ── */}
+      <section className="section">
+        <div className="container">
+          <div className="testimonial">
+            <p className="testimonial__quote">
+              "They restructured how we thought about the problem entirely — and cut
+              our evaluation timeline from weeks to days."
+            </p>
+            <p className="testimonial__attr">
+              <strong>Sarah K.</strong> · CTO, Series B SaaS · Amsterdam
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── HOW TO ── */}
+      <section className="section section--white">
+        <div className="container">
+          <div className="section-header">
+            <p className="section-header__label">How it works</p>
+            <h2 className="section-header__h2">Up and running in days, not months.</h2>
+          </div>
+          <div className="howto__grid">
+            {steps.map((s) => (
+              <div key={s.num} className="howto-step">
+                <p className="howto-step__num">{s.num}</p>
+                <h3>{s.title}</h3>
+                <p>{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA BAND ── */}
+      <section className="section">
+        <div className="container">
+          <div className="cta-band">
+            <p className="cta-band__label">Book a call</p>
+            <h2 className="cta-band__h2">Connect with us.</h2>
+            <p className="cta-band__sub">
+              Schedule a quick 30-minute call to learn how AsleepTurtle can turn
+              your AI ambition into a working product advantage.
+            </p>
+            <Link href="/contact" className="btn btn-white">
+              Book a free strategy call →
             </Link>
           </div>
         </div>
