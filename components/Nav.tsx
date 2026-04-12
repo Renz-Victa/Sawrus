@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 
 const links = [
+  { href: '/', label: 'Home' },
   { href: '/services', label: 'Services' },
   { href: '/about', label: 'About' },
   { href: '/insights', label: 'Insights' },
@@ -18,16 +19,19 @@ export default function Nav() {
     return () => { document.body.style.overflow = '' }
   }, [open])
 
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href)
+
   return (
     <>
       <nav className="nav">
         <div className="container">
           <div className="nav__inner">
-            <Link href="/" className="nav__logo">Asleep<span>Turtle</span></Link>
+            <Link href="/" className="nav__logo">AsleepTurtle</Link>
             <ul className="nav__links">
               {links.map(({ href, label }) => (
                 <li key={href}>
-                  <Link href={href} style={{ color: pathname.startsWith(href) ? 'var(--text)' : undefined }}>
+                  <Link href={href} style={{ color: isActive(href) ? 'var(--text)' : undefined }}>
                     {label}
                   </Link>
                 </li>
@@ -45,7 +49,7 @@ export default function Nav() {
       {open && (
         <div style={{ position: 'fixed', inset: '64px 0 0 0', background: 'var(--bg)', zIndex: 90, borderTop: '1px solid var(--border)', display: 'flex', flexDirection: 'column', padding: '2rem var(--gut)' }}>
           {links.map(({ href, label }) => (
-            <Link key={href} href={href} style={{ fontFamily: 'var(--fd)', fontSize: '2rem', fontWeight: 400, fontStyle: 'italic', color: pathname.startsWith(href) ? 'var(--text)' : 'var(--text-mid)', padding: '1rem 0', borderBottom: '1px solid var(--border)' }}>
+            <Link key={href} href={href} style={{ fontFamily: 'var(--fd)', fontSize: '2rem', fontWeight: 400, fontStyle: 'italic', color: isActive(href) ? 'var(--text)' : 'var(--text-mid)', padding: '1rem 0', borderBottom: '1px solid var(--border)' }}>
               {label}
             </Link>
           ))}
