@@ -1031,6 +1031,7 @@ p {
   border-radius: var(--radius-xl);
   padding: clamp(28px, 4vw, 48px);
   box-shadow: 0 4px 40px rgba(26, 23, 20, .06);
+  margin-top: 100px;
 }
 
 .form-group {
