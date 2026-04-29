@@ -4,7 +4,7 @@
  * Stack : Node.js · Express · better-sqlite3 · express-rate-limit · hCaptcha · CORS
  *
  * Setup:
- *   cp .env.example .env   ← fill in HCAPTCHA_SECRET + ALLOWED_ORIGINS
+ *   copy env.example .env  <- fill in HCAPTCHA_SECRET + ALLOWED_ORIGINS
  *   npm install
  *   node server.js
  */
@@ -27,7 +27,7 @@ const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'http://localhost:5500,h
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'data', 'contacts.db');
 
 if (!HCAPTCHA_SECRET) {
-  console.error('[ERROR] HCAPTCHA_SECRET is not set. Add it to your .env file.');
+  console.error('[ERROR] HCAPTCHA_SECRET is not set. Copy env.example to .env and add your hCaptcha secret key.');
   process.exit(1);
 }
 

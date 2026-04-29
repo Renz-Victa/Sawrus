@@ -12,9 +12,11 @@
     content="book AI strategy call, AI consulting contact, schedule AI consultation, Sawrus contact" />
   <link rel="canonical" href="https://sawrus.com/contact.html" />
   <meta name="robots" content="noindex, follow" />
+  <meta name="sawrus-api-base" content="" />
+  <meta name="sawrus-hcaptcha-sitekey" content="fa30b40a-47ce-4db0-aed4-cbb24d7ed676" />
 
   <!-- hCaptcha — replace sitekey with your real key from dashboard.hcaptcha.com -->
-  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+  <script src="https://js.hcaptcha.com/1/api.js?render=explicit" async defer></script>
 
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -61,7 +63,7 @@
           <h3 class="contact-inline-007">What to expect</h3>
           <p class="contact-inline-008">On the call, we'll understand your current situation, your
             business
-            goals and whether we're the right partner. We'll be direct about whether an engagement makes sense —
+            goals and whether we're the right partner. We'll be direct about whether an engagement makes sense -
             <strong>no
               pressure, no hard sell</strong>.
           </p>
@@ -171,10 +173,10 @@
             </div>
 
             <!-- hCaptcha
-               Replace data-sitekey with your actual site key from dashboard.hcaptcha.com
+               Replace the sawrus-hcaptcha-sitekey meta tag in the head with your actual site key from dashboard.hcaptcha.com
                Test key: 10000000-ffff-ffff-ffff-000000000001 (dev only) -->
             <div class="contact-inline-019">
-              <div class="h-captcha" data-sitekey="10000000-ffff-ffff-ffff-000000000001" data-theme="light">
+              <div class="h-captcha" id="captchaContainer">
               </div>
               <p class="contact-inline-020">
                 Protected by hCaptcha —
@@ -278,6 +280,53 @@
     const rateAlert = document.getElementById('rateAlert');
     const errorAlert = document.getElementById('errorAlert');
     const formSuccess = document.getElementById('formSuccess');
+    const serviceField = document.getElementById('service');
+    const captchaContainer = document.getElementById('captchaContainer');
+    let captchaWidgetId = null;
+    let captchaRenderTimer = null;
+
+    const getApiBaseUrl = () => {
+      const configuredBase = document.querySelector('meta[name="sawrus-api-base"]')?.content?.trim();
+      if (configuredBase) return configuredBase.replace(/\/$/, '');
+
+      const { protocol, hostname, origin } = window.location;
+      if (protocol === 'file:' || hostname === 'localhost') return 'http://localhost:3001';
+      if (hostname === '127.0.0.1') return 'http://127.0.0.1:3001';
+      if (hostname === 'sawrus.com' || hostname === 'www.sawrus.com') return 'https://api.sawrus.com';
+      return origin.replace(/\/$/, '');
+    };
+
+    const getCaptchaSiteKey = () => {
+      return document.querySelector('meta[name="sawrus-hcaptcha-sitekey"]')?.content?.trim()
+        || '10000000-ffff-ffff-ffff-000000000001';
+    };
+
+    const renderCaptcha = () => {
+      if (captchaWidgetId !== null || typeof hcaptcha === 'undefined' || !captchaContainer) return false;
+
+      captchaWidgetId = hcaptcha.render('captchaContainer', {
+        sitekey: getCaptchaSiteKey(),
+        theme: 'light',
+      });
+
+      if (captchaRenderTimer) {
+        clearInterval(captchaRenderTimer);
+        captchaRenderTimer = null;
+      }
+
+      return true;
+    };
+
+    renderCaptcha();
+    if (captchaWidgetId === null) {
+      captchaRenderTimer = setInterval(renderCaptcha, 250);
+      setTimeout(() => {
+        if (captchaRenderTimer) {
+          clearInterval(captchaRenderTimer);
+          captchaRenderTimer = null;
+        }
+      }, 10000);
+    }
 
     const setLoading = (on) => {
       submitBtn.disabled = on;
@@ -305,7 +354,7 @@
       // 3. hCaptcha check — hcaptcha.getResponse() is globally available after the script loads
       let captchaResponse = '';
       if (typeof hcaptcha !== 'undefined') {
-        captchaResponse = hcaptcha.getResponse();
+        captchaResponse = hcaptcha.getResponse(captchaWidgetId);
         if (!captchaResponse) { alert('Please complete the CAPTCHA verification.'); return; }
       }
 
@@ -319,15 +368,14 @@
         email: document.getElementById('email').value.trim(),
         company: document.getElementById('company').value.trim(),
         stage: document.getElementById('stage').value,
-        service: document.getElementById('service').value,
+        service: serviceField ? serviceField.value : '',
         message: document.getElementById('message').value.trim(),
         captchaToken: captchaResponse,
       };
 
       try {
         // 5. POST to backend
-        // Update this URL to your deployed API endpoint (e.g. https://api.sawrus.com/contact)
-        const res = await fetch('https://api.sawrus.com/contact', {
+        const res = await fetch(`${getApiBaseUrl()}/contact`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           // Browser sends Origin header automatically; server validates it against CORS allow-list
@@ -339,14 +387,14 @@
           formSuccess.classList.add('visible');
         } else if (res.status === 429) {
           showAlert(rateAlert);
-          if (typeof hcaptcha !== 'undefined') hcaptcha.reset();
+          if (typeof hcaptcha !== 'undefined' && captchaWidgetId !== null) hcaptcha.reset(captchaWidgetId);
         } else {
           showAlert(errorAlert);
-          if (typeof hcaptcha !== 'undefined') hcaptcha.reset();
+          if (typeof hcaptcha !== 'undefined' && captchaWidgetId !== null) hcaptcha.reset(captchaWidgetId);
         }
       } catch {
         showAlert(errorAlert);
-        if (typeof hcaptcha !== 'undefined') hcaptcha.reset();
+        if (typeof hcaptcha !== 'undefined' && captchaWidgetId !== null) hcaptcha.reset(captchaWidgetId);
       } finally {
         setLoading(false);
       }
