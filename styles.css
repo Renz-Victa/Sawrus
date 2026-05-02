@@ -2277,9 +2277,7 @@ select.form-control {
 }
 
 .index-inline-010 {
-  margin-top: 16px;
-  background: var(--white);
-  border: 1px solid var(--border);
+  background: var(--cream);
   padding: 30px;
   display: flex;
   align-items: center;
